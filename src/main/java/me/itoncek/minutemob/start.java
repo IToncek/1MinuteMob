@@ -34,7 +34,7 @@ public class start implements CommandExecutor {
         entityTypes.addAll(Arrays.asList(EntityType.values()));
 
         for(Player p: Bukkit.getOnlinePlayers()) {
-            p.sendTitle(Title.builder().title(ChatColor.GREEN + "Plugin made by IToncek").subtitle().build());
+            p.sendTitle(Title.builder().title(ChatColor.GREEN + "Plugin made by IToncek").subtitle("").build());
         }
 
         new BukkitRunnable() {
