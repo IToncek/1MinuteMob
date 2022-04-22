@@ -1,0 +1,7 @@
+name: 1minuteMob
+version: '${project.version}'
+main: me.itoncek.minutemob.minutemob
+api-version: 1.18
+commands:
+  start:
+    description: "run"
