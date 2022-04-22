@@ -22,6 +22,28 @@ public class start implements CommandExecutor {
     public static minutemob plugin;
     public static FileConfiguration config;
     public static List<EntityType> entityTypes = new ArrayList<>();
+    public static BukkitRunnable runnable = new BukkitRunnable() {
+
+        /**
+         * When an object implementing interface {@code Runnable} is used
+         * to create a thread, starting the thread causes the object's
+         * {@code run} method to be called in that separately executing
+         * thread.
+         * <p>
+         * The general contract of the method {@code run} is that it may
+         * take any action whatsoever.
+         *
+         * @see Thread#run()
+         */
+        @Override
+        public void run() {
+            for(Player p: Bukkit.getOnlinePlayers()) {
+                EntityType type = entityTypes.get(new Random().nextInt(entityTypes.size()));
+                p.getWorld().spawnEntity(p.getLocation(),type , CreatureSpawnEvent.SpawnReason.COMMAND);
+                p.sendMessage(ChatColor.GOLD + "Spawned " + type.getName());
+            }
+        }
+    };
 
     public start(minutemob pl, FileConfiguration co) {
         plugin = pl;
@@ -34,31 +56,10 @@ public class start implements CommandExecutor {
         entityTypes.addAll(Arrays.asList(EntityType.values()));
 
         for(Player p: Bukkit.getOnlinePlayers()) {
-            p.sendTitle(Title.builder().title(ChatColor.GREEN + "Plugin made by IToncek").subtitle("").build());
+            p.sendTitle(Title.builder().title(ChatColor.GREEN + "Plugin made by IToncek").subtitle("You can download this plugin from https://plugins.itoncek.cf/").build());
         }
 
-        new BukkitRunnable() {
-
-            /**
-             * When an object implementing interface {@code Runnable} is used
-             * to create a thread, starting the thread causes the object's
-             * {@code run} method to be called in that separately executing
-             * thread.
-             * <p>
-             * The general contract of the method {@code run} is that it may
-             * take any action whatsoever.
-             *
-             * @see Thread#run()
-             */
-            @Override
-            public void run() {
-                for(Player p: Bukkit.getOnlinePlayers()) {
-                    EntityType type = entityTypes.get(new Random().nextInt(entityTypes.size()));
-                    p.getWorld().spawnEntity(p.getLocation(),type , CreatureSpawnEvent.SpawnReason.COMMAND);
-                    p.sendMessage(ChatColor.GOLD + "Spawned " + type.getName());
-                }
-            }
-        }.runTaskTimer(plugin, config.getLong("delay"),config.getLong("delay"));
+        runnable.runTaskTimer(plugin, config.getLong("delay"),config.getLong("delay"));
         return true;
     }
 }

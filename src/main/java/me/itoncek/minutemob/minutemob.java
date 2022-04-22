@@ -10,6 +10,7 @@ public final class minutemob extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         Objects.requireNonNull(this.getCommand("start")).setExecutor(new start(this, getConfig()));
+        Objects.requireNonNull(this.getCommand("abort")).setExecutor(new abort(this, getConfig()));
     }
 
     @Override
